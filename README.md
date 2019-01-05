@@ -1,0 +1,1 @@
+# vuecli3plugin-generatererouter
