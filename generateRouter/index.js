@@ -38,10 +38,10 @@ function createRoutes(files, srcDir, pagesDir) {
         const route = {
             name: '',
             path: '',
-            component: `views${camelCase(keys.join('-'))}`
+            component: `views${camelCase(keys.join('-').replace('_', ''))}`
         }
 
-        requireComponent.push(`const views${camelCase(keys.join('-'))} = resolve => require(['../views/${keys.join('/')}'], resolve)`)
+        requireComponent.push(`const views${camelCase(keys.join('-').replace('_', ''))} = resolve => require(['../views/${keys.join('/')}'], resolve)`)
         let parent = routes
         keys.forEach((key, i) => {
 
@@ -63,9 +63,9 @@ function createRoutes(files, srcDir, pagesDir) {
             } else {
                 route.path += '/' + getRoutePathExtension(key)
 
-                if (key.startsWith('_') && key.length > 1) {
-                    route.path += '?'
-                }
+                // if (key.startsWith('_') && key.length > 1) {
+                //     route.path += '?'
+                // }
             }
         })
         parent.push(route)
@@ -88,7 +88,6 @@ const r = function r(...args) {
     }
     return wp(path.resolve(...args.map(normalize)))
 };
-
 function baseToString(value) {
     if (typeof value == 'string') {
         return value;
@@ -102,7 +101,6 @@ function baseToString(value) {
     var result = (value + '');
     return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
 }
-
 function toString(value) {
     return value == null ? '' : baseToString(value);
 }
@@ -135,7 +133,6 @@ const getRoutePathExtension = (key) => {
 };
 
 const DYNAMIC_ROUTE_REGEX = /^\/(:|\*)/;
-
 function sortRoutes(routes) {
     routes.sort((a, b) => {
         if (!a.path.length) {
@@ -234,7 +231,6 @@ function cleanChildrenRoutes(routes, isChild = false) {
     })
     return routes
 }
-
 function camelCase(string) {
     return string.replace(/-([a-z])/g, function (all, letter) {
         return letter.toUpperCase();
@@ -261,3 +257,5 @@ module.exports.creatRouter = (flag = false) => {
         })
     })
 }
+
+
