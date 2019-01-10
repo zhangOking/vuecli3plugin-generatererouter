@@ -23,7 +23,6 @@ generateRoutesAndFiles = async () => {
         'views'
     )
 }
-
 function createRoutes(files, srcDir, pagesDir) {
     const routes = []
     const requireComponent = []
@@ -44,16 +43,9 @@ function createRoutes(files, srcDir, pagesDir) {
         requireComponent.push(`const views${camelCase(keys.join('-').replace('_', ''))} = resolve => require(['../views/${keys.join('/')}'], resolve)`)
         let parent = routes
         keys.forEach((key, i) => {
-
-            const sanitizedKey = key.startsWith('_') ? key.substr(1) : key
-
-            route.name = route.name ?
-                route.name + '-' + sanitizedKey :
-                sanitizedKey
+            route.name = key.startsWith('_') ? key.substr(1) : key
             route.name += key === '_' ? 'all' : ''
-
             const child = parent.find(parentRoute => parentRoute.name === route.name)
-
             if (child) {
                 child.children = child.children || []
                 parent = child.children
@@ -61,7 +53,7 @@ function createRoutes(files, srcDir, pagesDir) {
             } else if (key === 'index' && i + 1 === keys.length) {
                 route.path += i > 0 ? '' : '/'
             } else {
-                route.path += '/' + getRoutePathExtension(key)
+                route.path = `/` + getRoutePathExtension(key)
 
                 if (key.startsWith('_') && key.length > 1) {
                     route.path += '?'
