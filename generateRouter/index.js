@@ -235,7 +235,7 @@ function camelCase(string) {
 module.exports.creatRouter = (flag = false) => {
     if (flag) return
     generateRoutesAndFiles().then(res => {
-        let string = ''
+        let string = `/* eslint-disable */\n`
         res.requireComponent.forEach(res => {
             string += `${res}\n`
         })
@@ -245,10 +245,12 @@ module.exports.creatRouter = (flag = false) => {
             .replace(/"(\w+?)":/g, '$1:')
         fs.mkdir(path.resolve(process.cwd(), './src/router'), err => {
             if (err) {
+                console.log('\n_(:з」∠)_ _(:з」∠)_ ')
                 console.log('router文件已存在')
             }
         })
         fs.writeFile(path.resolve(process.cwd(), './src/router/route.js'), string, (file) => {
+            console.log('\n╭(￣▽￣)╯╭(￣▽￣)╯')
             console.log('router文件写入完毕')
         })
     })
